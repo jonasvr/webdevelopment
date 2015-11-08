@@ -2,14 +2,22 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use Validator;
+
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+//added
+use App\User;
+use Validator;
+use Auth;
+
 
 class AuthController extends Controller
 {
+    protected $redirectPath = '/home';
+    protected $loginPath = '/login';
+
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -33,33 +41,46 @@ class AuthController extends Controller
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+   
+    public function postRegister(Request $request)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-        ]);
-    }
+        // nakijken of alles juist ingevuld is, zoniet terug sturen met errors
+        $this->validate($request, [
+            'name'                  => 'required|max:255',
+            'surname'               => 'required|max:255',
+            'street'                => 'required',
+            'nr'                    => 'required',
+            'city'                  => 'required',
+            'postalcode'            => 'required',
+            'country'               => 'required',
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+            'login'                 => 'required|unique:users,loginname',
+            'email'                 => 'required|email|max:255|unique:users',
+            'password'              => 'required|confirmed|min:4',
+            'password_confirmation' => 'required|min:4'
+         ]);
+
+        $registerData       = $request->all();        
+        $user               = new User;
+
+        $user->name         = $registerData['name'];
+        $user->surname      = $registerData['surname'];
+        $user->street       = $registerData['street'];
+        $user->nr           = $registerData['nr'];
+        $user->additive     = $registerData['additive'];
+        $user->city         = $registerData['city'];
+        $user->postalcode   = $registerData['postalcode'];
+        $user->country      = $registerData['country'];
+
+        $user->loginname    = $registerData['login'];
+        $user->email        = $registerData['email'];
+        $user->password     = bcrypt($registerData['password']);
+        $user->ip_address   = $request->ip();
+        
+        $user->save();
+
+        Auth::login($user);
+
+        return redirect()->route('home');
     }
 }
