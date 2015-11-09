@@ -17,7 +17,7 @@
 
 Route::get('/',         ['as' => 'home',        'uses' => 'HomeController@index']);
 
-Route::get('/test',                  ['as' => 'test',                  'uses' => 'testController@index']);
+Route::get('/test',     ['as' => 'test',                  'uses' => 'testController@index']);
 
 //Route::get('/home', 'HomeController@index');
 Route::get('/home', 		['as' => 'home', 		'uses' => 'HomeController@index']);
