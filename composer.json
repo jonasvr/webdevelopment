@@ -50,6 +50,7 @@
     },
 "require": {
     "laravelcollective/html": "5.1.*",
-    "illuminate/html": "5.*"
-}
+    "illuminate/html": "5.*",
+	"guzzlehttp/guzzle":"5.*"
+	}
 }

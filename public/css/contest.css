@@ -3,3 +3,8 @@
     text-decoration: underline;
     font-size: 18px;
 }
+
+.group
+{
+	background-image: url("/image/layout/bar.jpg");
+}

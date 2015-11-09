@@ -2,46 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use App\Quizname;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+//added
+use DB;
+use Carbon\Carbon;
+# Include the Autoloader (see "Libraries" for install instructions)
+use Mailgun\Mailgun;
+use Mail;
 
-class QuizController extends Controller
+
+class testController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        return view('createinquiry');    }
+        $awnsers= DB::table('users')
+                    ->join('awnsers', 'users.id', '=', 'awnsers.FK_user')
+                    ->where('awnsers.created_at','>=',Carbon::today())
+                    ->select('users.name','users.surname')
+                    ->get();
+
+        $file = fopen('file.csv', 'w');
+        $csv = array();
+
+        foreach ($awnsers as $row) {
+             $csv[]=array("name" => $row->name,"surname" => $row->surname);
+        }
+
+        foreach ($csv as $row) {
+            fputcsv($file, $row);
+        }
+        fclose($file);
+
+    Mail::raw('Laravel with Mailgun is easy!', function($message)
+        {
+            $message->to('jonasvanreeth@gmail.com');
+        });
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function postName(Request $request)
+    public function create()
     {
-        $this->validate($request, [
-            'name'          =>  'required|max:255',
-            'start'         =>  'required|date',
-            'stop'          =>  'required|date',
-         ]);
-
-        $inputData              = $request->all();        
-        $quizname               = new Quizname;
-
-        $quizname->name         = $inputData['name'];
-        $quizname->start        = $inputData['start'];
-        $quizname->stop         = $inputData['stop'];
-        
-        $quizname->save();
-
-        return redirect()->route('home');
-        
+        //
     }
 
     /**
