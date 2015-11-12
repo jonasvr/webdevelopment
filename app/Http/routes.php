@@ -34,36 +34,19 @@ Route::get('/register', 	['as' => 'register', 	'uses' => 'Auth\AuthController@ge
 Route::post('/register', 	[						'uses' => 'Auth\AuthController@postRegister']);
 
 
-// participant
-Route::get('/participants', 				['as' => 'participants', 				'uses' => 'ParticipantsController@index']);
-Route::get('/participants/delete/{id}', 	['as' => 'participants/delete', 		'uses' => 'ParticipantsController@delete']);
-
-// quize aanmaken
-Route::get('/createinquiry', 				['as' => 'createinquiry', 				'uses' => 'InquiryController@index']);
-Route::post('/addInquiry', 					['as' => 'addInquiry',					'uses' => 'InquiryController@create']);
-
-
 //quiz spelen
 Route::get('/play',                     ['as' => 'play',                    'uses' => 'InquiryController@play']);
 Route::post('/awnser',                  ['as' => 'awnser',                  'uses' => 'InquiryController@awnser']);
 
 
-//restrictions
-/*
-Route::group(['middleware' => 'App\Http\Middleware\AdminMiddleware'], function()
-{
-    Route::get('/admin', function()
-    {
-        
-    	// participant
-		Route::get('/participants', 				['as' => 'participants', 				'uses' => 'ParticipantsController@index']);
-		Route::get('/participants/delete/{id}', 	['as' => 'participants/delete', 		'uses' => 'ParticipantsController@delete']);
+//  restrictions
+// participant
 
-		// quize aanmaken
-		Route::get('/createinquiry', 				['as' => 'createinquiry', 				'uses' => 'InquiryController@index']);
-		Route::post('/addInquiry', 					['as' => 'addInquiry',					'uses' => 'InquiryController@create']);
+Route::group(['middleware' => 'admin'], function(){
+	Route::get('/participants',                 ['as' => 'participants',                'uses' => 'ParticipantsController@index']);
+	Route::get('/participants/delete/{id}',     ['as' => 'participants/delete',         'uses' => 'ParticipantsController@delete']);
 
-
-
-    });
-    });*/
+	// quize aanmaken
+	Route::get('/createinquiry',                ['as' => 'createinquiry',               'uses' => 'InquiryController@index']);
+	Route::post('/addInquiry',                  ['as' => 'addInquiry',                  'uses' => 'InquiryController@create']);
+});

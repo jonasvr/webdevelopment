@@ -13,6 +13,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ParticipantsController extends Controller
 {
+    public function __construct()
+    {
+       // $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *

@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use DB;
+use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,5 +28,28 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('inspire')
                  ->hourly();
+
+        $schedule->call(function () {
+            
+
+            $awnsers= DB::table('users')
+                    ->join('awnsers', 'users.id', '=', 'awnsers.FK_user')
+                    ->where('awnsers.created_at','>=',Carbon::today())
+                    ->select('users.name','users.surname')
+                    ->get();
+
+            $file = fopen('file.csv', 'w');
+            $csv = array();
+
+            foreach ($awnsers as $row) {
+                 $csv[]=array("name" => $row->name,"surname" => $row->surname);
+            }
+
+            foreach ($csv as $row) {
+                fputcsv($file, $row);
+            }
+            fclose($file);
+
+        })->everyMinute();
     }
 }

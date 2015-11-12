@@ -16,11 +16,9 @@ class CreateWinnersTable extends Migration
             $table->increments('id');
             $table->integer('FK_user');
             $table->integer('FK_inquiry');
+            $table->integer('periode');
             $table->timestamps();
         });
-        
-        Schema::table('winners', function ($table) {
-        $table->integer('periode');
     }
 
     /**
