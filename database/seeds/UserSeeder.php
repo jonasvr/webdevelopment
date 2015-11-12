@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
         $tester1->city            = "TestersVille";
         $tester1->postalcode      = "1111";
         $tester1->country         = "Belgie";
-        $tester1->loginname       = "testie1";
+        $tester1->loginname       = "testie2";
          
         $tester1->save();
     }
