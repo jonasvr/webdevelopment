@@ -11,6 +11,8 @@ use Carbon\Carbon;
 # Include the Autoloader (see "Libraries" for install instructions)
 use Mailgun\Mailgun;
 use Mail;
+use App\Winners;
+
 
 
 class testController extends Controller
@@ -41,10 +43,10 @@ class testController extends Controller
         }
         fclose($file);
 
-    Mail::raw('Laravel with Mailgun is easy!', function($message)
+   /* Mail::raw('Laravel with Mailgun is easy!', function($message)
         {
             $message->to('jonasvanreeth@gmail.com');
-        });
+        });*/
     }
 
     /**
@@ -52,9 +54,72 @@ class testController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function selectWinner()
+    {   
+        //get the question of the last period not checked for winners
+        $inquiry =  DB::table('inquiries')
+                        ->whereNull('deleted_at')
+                        ->orderBy('stop', 'asc')
+                        ->first();
+
+        //check if the question has ended
+        if($inquiry->stop == Carbon::today())
+        {
+            //count all the ones who got it correct
+            $countCorrect = DB::table('awnsers')
+                    ->where('FK_inquiry',$inquiry->id)
+                    ->where('awnser',$inquiry->awnser)
+                    ->count();
+
+            //check the shifting question
+            $first = DB::table('awnsers')
+                        ->select('FK_user','shifting')
+                        ->where('shifting','<',$countCorrect)
+                        ->orderBy('shifting','DESC')
+                        ->take(3);
+
+            $winners = DB::table('awnsers')
+                        ->select('FK_user','shifting')
+                        ->where('shifting','>=',$countCorrect)
+                        ->orderBy('shifting','DESC')
+                        ->take(3)
+                        ->union($first)
+                        ->orderBy('shifting','DESC')
+                        ->take(3)
+                        ->get();
+
+            //write away
+            $file   = fopen('winners.csv', 'w');
+            $ids    = array();
+            foreach ($winners as $row) {
+
+                $ids[]=$row->FK_user;
+                
+                $newWinners                     = new Winner;
+                $newWinners->FK_inquiry         = $inputData[$inquiry->id];
+                $newWinners->FK_user            = $inputData[$row->FK_user];  
+                $newWinners->save();
+
+            }
+
+           //get names
+            $names = DB::table('users')
+                    ->select('name','surname')
+                    ->whereIn('id', $ids)
+                    ->get();
+            
+            foreach ($names as $row) {
+
+                 $csv=array("name" => $row->name,"surname" => $row->surname);
+                 fputcsv($file,$csv);
+            }
+
+            fclose($file);
+
+            //close period
+            $inquiry->delete();
+        }
+        
     }
 
     /**
