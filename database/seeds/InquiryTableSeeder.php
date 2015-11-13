@@ -15,8 +15,8 @@ class InquiryTableSeeder extends Seeder
      */
     public function run()
     {
-    	 $start = Carbon::parse($inquiry->stop);
-        $stop   =  Carbon::parse($inquiry->stop)->addWeek();
+    	$start = Carbon::today();
+        $stop   =  Carbon::today()->addWeek();
 
         $inquiry                    = new Inquiry;
 

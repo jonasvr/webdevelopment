@@ -33,7 +33,7 @@ class InquiryController extends Controller
         $stop   =  Carbon::parse($inquiry->stop)->addWeek();
         $data   = array('start' => $start, 'stop' => $stop);
 
-        return view('createinquiry')->with($data);
+        return view('createInquiry')->with($data);
     }
 
     /**
