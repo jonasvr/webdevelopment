@@ -1,7 +1,7 @@
  @extends('master')
 
 @section('title')
-    new inquiry
+    nieuwe vraag
 @stop
 
 @section('body')

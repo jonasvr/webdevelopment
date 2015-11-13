@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('title')
-    home
+    deelnemers
 @stop
 
 @section('body')       

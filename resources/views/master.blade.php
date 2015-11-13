@@ -4,60 +4,45 @@
         <title>contest | @yield('title')</title>
         @yield('scripts')
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="/css/contest.css">
         <link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" href="/css/global.css">
+        <link rel="stylesheet" href="/css/contest.css">
+        <link rel="shortcut icon" type="image/x-icon" href="/img/layout/favicon.ico" />
     </head>
     <body>
        
             <header class="group">
                 <div>
-                    <a href="{{ route('home') }}">
-                        home
-                    </a>
+                    {!! HTML::link(route('home'), 'home') !!}
                 </div>
                 <nav>
                     <ul>
 
                         @if(Auth::user())
-                              <li>
-                                <a href="#">
-                                  {{ Auth::user()->email }}
-                                </a>
-                             </li>
-                             <li> 
-                                <a href="{{ route('logout') }}">
-                                    logout
-                                </a>
+                            <li>
+                                {!! HTML::link("#", Auth::user()->email) !!}
+                            </li>
+                            <li> 
+                                {!! HTML::link(route('logout'), 'logout') !!}
                             </li>
                             @if(Auth::user()->admin==1)
                                 <li>
-                                    <a href="{{ route('participants') }}">
-                                        deelnemers
-                                    </a>
+                                    {!! HTML::link(route('participants'), 'deelnemers') !!}
                                 </li>
                                 <li>
-                                    <a href="{{ route('createinquiry') }}">
-                                        toevoegen
-                                    </a>
+                                    {!! HTML::link(route('createinquiry'), 'toevoegen') !!}
                                 </li>
                             @else
                                 <li>
-                                    <a href="{{ route('play') }}">
-                                        play
-                                    </a>
+                                    {!! HTML::link(route('play'), 'play') !!}
                                 </li>
                             @endif
                         @else
                         <li>
-                            <a href="{{ route('register') }}">
-                            register
-                            </a>
+                            {!! HTML::link(route('register'), 'registreer') !!}
                         </li>
                         <li>
-                            <a href="{{ route('login') }}">
-                            login
-                            </a>
+                            {!! HTML::link(route('login'), 'login') !!}
                         </li>
                         @endif
                     </ul>

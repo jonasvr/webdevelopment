@@ -25,6 +25,7 @@ body {
     background-color: #f2dede;
     border: 1px solid #eed3d7;
     color: #b94a48;
+    opacity: 50%;
 }
 .error p {
     font-style: italic;

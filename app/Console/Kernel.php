@@ -53,7 +53,7 @@ class Kernel extends ConsoleKernel
 //FIND WINNERS------------------------------------------------------------------------------------------------------------
 
         $schedule->call(function () {
-            
+            $endOfContest = false;
              //get the question of the last period not checked for winners
             $inquiry =  DB::table('inquiries')
                             ->whereNull('deleted_at')
@@ -116,6 +116,25 @@ class Kernel extends ConsoleKernel
 
                 //close period
                 $inquiry->delete();
+
+            //send mail-----------------
+                $users = DB::table('users')
+                        ->whereNotNull('admin')
+                        ->get();
+
+                foreach($users as $user)
+                {
+                    $data = ['user' => $user];
+
+                    $pathToFile = "public/winners.csv";
+
+                    Mail::send('mail', $data, function ($message) {
+                        $message->from('contest@stuff.com', 'contest.stuff');
+                        $message->attach("winners.csv");
+                        $message->to('jonasvanreeth@gmail.com')->cc('bar@example.com');
+                    });
+        }
+
             }
 
         })->dailyAt('23:59');
