@@ -93,7 +93,7 @@ class Kernel extends ConsoleKernel
 
                     $ids[]=$row->FK_user;
                     
-                    $newWinners                     = new Winner;
+                    $newWinners                     = new Winners;
                     $newWinners->FK_inquiry         = $inputData[$inquiry->id];
                     $newWinners->FK_user            = $inputData[$row->FK_user];  
                     $newWinners->save();
