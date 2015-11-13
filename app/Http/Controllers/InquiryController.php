@@ -46,9 +46,16 @@ class InquiryController extends Controller
         $inquiry = DB::table('inquiries')
                         ->orderBy('stop', 'desc')
                         ->first();
-        $start = Carbon::parse($inquiry->stop);
-        $stop   =  Carbon::parse($inquiry->stop)->addWeek();
-        
+        $start  =  Carbon::parse($inquiry->stop)->format('Y-m-d');
+        $stop   =  Carbon::parse($inquiry->stop)->addWeek()->format('Y-m-d');
+        // echo $start;
+        // $inputData                  = $request->all();  
+
+        // if ($start>$inputData['start'])
+        // {
+        //     echo "start is kleiner";
+        // }
+        // echo $inputData['start']; 
          $this->validate($request, [
             'inquiry'           =>  'required|max:255',
             'awnser'            =>  'required|max:255',

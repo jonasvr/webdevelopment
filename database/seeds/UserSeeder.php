@@ -17,9 +17,9 @@ class UserSeeder extends Seeder
     {
         $user1 = new User;
 
-        $user1->name            = "Van Reeth";
-        $user1->surname         = "Jonas";
-        $user1->email           = "Jonasvanreeth@gmail.com";
+        $user1->name            = "admin";
+        $user1->surname         = "admin";
+        $user1->email           = "jonasvanreeth@gmail.com";
         $user1->password        = Hash::make('1234test');
         $user1->street          = "Plantinkaai";
         $user1->nr              = 1;
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         $user1->city            = "Antwerp";
         $user1->postalcode      = "2000";
         $user1->country         = "Belgie";
-        $user1->loginname       = "jonasvr";
+        $user1->loginname       = "admin";
         $user1->admin           = 1;
         
         $user1->save();

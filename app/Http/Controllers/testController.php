@@ -99,8 +99,8 @@ class testController extends Controller
                 $ids[]=$row->FK_user;
                 
                 $newWinners                     = new Winners;
-                $newWinners->FK_inquiry         = $inputData[$inquiry->id];
-                $newWinners->FK_user            = $inputData[$row->FK_user];  
+                $newWinners->FK_inquiry         = 1;
+                $newWinners->FK_user            = 1;  
                 $newWinners->save();
 
             }
@@ -122,7 +122,26 @@ class testController extends Controller
             //close period
             $inquiry->delete();
         }
-        
+        //send mail-----------------
+                
+
+                $users = DB::table('users')
+                        ->whereNotNull('admin')
+                        ->get();
+
+                foreach($users as $user)
+                {
+                    $data = ['user' => $user];
+
+                    $pathToFile = "public/winners.csv";
+
+                    Mail::send('mail', $data, function ($message) {
+                        $message->from('contest@stuff.com', 'contest.stuff');
+                        $message->attach("winners.csv");
+                        $message->to('jonasvanreeth@gmail.com')->cc('bar@example.com');
+                    });
+                }
+             
     }
 
     /**

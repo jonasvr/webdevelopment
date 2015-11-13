@@ -36,6 +36,9 @@ Route::post('/register', 	[						'uses' => 'Auth\AuthController@postRegister']);
 Route::get('/play',                     ['as' => 'play',                    'uses' => 'InquiryController@play']);
 Route::post('/awnser',                  ['as' => 'awnser',                  'uses' => 'InquiryController@awnser']);
 
+Route::get('/winner',     ['as' => 'winner',                  'uses' => 'testController@mail']);
+
+
 
 //  restrictions
 

@@ -43,7 +43,7 @@ class ParticipantsController extends Controller
         //$user = user::find( $id );
         $users = User::where('id', $id)->first();
         $users->delete();
-        return index();
+        return $this->index();
     }
 
 }
