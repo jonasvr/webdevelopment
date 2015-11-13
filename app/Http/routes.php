@@ -38,13 +38,16 @@ Route::post('/awnser',                  ['as' => 'awnser',                  'use
 
 
 //  restrictions
-// participant
 
 Route::group(['middleware' => 'admin'], function(){
+	// participant
 	Route::get('/participants',                 ['as' => 'participants',                'uses' => 'ParticipantsController@index']);
 	Route::get('/participants/delete/{id}',     ['as' => 'participants/delete',         'uses' => 'ParticipantsController@delete']);
 
 	// quize aanmaken
 	Route::get('/createinquiry',                ['as' => 'createinquiry',               'uses' => 'InquiryController@index']);
 	Route::post('/addInquiry',                  ['as' => 'addInquiry',                  'uses' => 'InquiryController@create']);
+
+	//upcoming
+	Route::get('/upcoming',                 ['as' => 'upcoming',                'uses' => 'UpcomingController@index']);
 });

@@ -30,20 +30,22 @@
       {!! HTML::link(route('register'), 'registreer',array('class' => 'btn'), true) !!}
          </a>        
      @endif
-
-     <h3>vorige winnaars</h3>
-      <table>
-        <tr>
-          <th> vraag </th>
-          <th> antwoord </th>
-          <th> winnaars </th>
-        </tr>
-       @foreach($winners as $person)
-           <tr>
-            <td> {{ $person->question }} </td>
-            <td> {{ $person->awnser }} </td>
-            <td> {{ $person->surname }} {{ $person->name }} </td>
+    
+     @if($winners!=false)
+      <h3>vorige winnaars</h3>
+        <table>
+          <tr>
+            <th> vraag </th>
+            <th> antwoord </th>
+            <th> winnaars </th>
           </tr>
-        @endforeach
+           @foreach($winners as $person)
+               <tr>
+                <td> {{ $person->question }} </td>
+                <td> {{ $person->awnser }} </td>
+                <td> {{ $person->surname }} {{ $person->name }} </td>
+              </tr>
+            @endforeach
+        @endif
       </table>
 @stop

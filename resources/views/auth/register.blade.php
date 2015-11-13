@@ -49,6 +49,7 @@
                     {!! Form::label('password_confirmation', 'vul wachtwoord nog eens in') !!}
                     {!! Form::password('password_confirmation', '') !!}</br>
 
+                    <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                     {!! Form::submit() !!}
                 {!! Form::close() !!}
             </div>
