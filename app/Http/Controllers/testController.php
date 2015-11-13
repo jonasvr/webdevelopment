@@ -11,6 +11,7 @@ use Carbon\Carbon;
 # Include the Autoloader (see "Libraries" for install instructions)
 use Mailgun\Mailgun;
 use Mail;
+use App\User;
 use App\Winners;
 
 
@@ -130,53 +131,26 @@ class testController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function mail(Request $request)
     {
-        //
+        $users = DB::table('users')
+                        ->whereNotNull('admin')
+                        ->get();
+
+        foreach($users as $user)
+        {
+            $data = ['user' => $user];
+
+            $pathToFile = "public/winners.csv";
+
+            Mail::send('mail', $data, function ($message) {
+                $message->from('contest@stuff.com', 'contest.stuff');
+                $message->attach("winners.csv");
+                $message->to('jonasvanreeth@gmail.com')->cc('bar@example.com');
+            });
+        }
+        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    
 }
