@@ -19,6 +19,7 @@ Route::get('/',         ['as' => 'home',        'uses' => 'HomeController@index'
 
 Route::get('/test',     ['as' => 'test',                  'uses' => 'testController@index']);
 Route::get('/winner',     ['as' => 'winner',                  'uses' => 'testController@selectWinner']);
+Route::get('/mail',     ['as' => 'mail',                  'uses' => 'testController@mail']);
 
 //Route::get('/home', 'HomeController@index');
 Route::get('/home', 		['as' => 'home', 		'uses' => 'HomeController@index']);

@@ -75,7 +75,7 @@ class AuthController extends Controller
         $user->loginname    = $registerData['login'];
         $user->email        = $registerData['email'];
         $user->password     = bcrypt($registerData['password']);
-        $user->ip_address   = $request->ip();
+        $user->ip_address   = Request::setTrustedProxies(array('192.0.0.1', '10.0.0.0/8'));
         
         $user->save();
 
