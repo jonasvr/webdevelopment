@@ -152,5 +152,21 @@ class testController extends Controller
         
     }
 
-    
+    public function winner(Request $request)
+    {
+
+                
+                $newWinners                     = new Winners;
+                $newWinners->FK_inquiry         = 1;
+                $newWinners->FK_user            = 1;  
+                $newWinners->save();
+       
+        }
+
 }
+
+
+// zet in route
+// Route::get('/test',     ['as' => 'test',                  'uses' => 'testController@index']);
+// Route::get('/winner',     ['as' => 'winner',                  'uses' => 'testController@winner']);
+// Route::get('/mail',     ['as' => 'mail',                  'uses' => 'testController@mail']);

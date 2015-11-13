@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('title')
-    quiz
+    Played
 @stop
 
 @section('body')       
