@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\User;
 use Validator;
 use Auth;
+use Symfony\Component\HttpFoundation\Request as Req;
 
 
 class AuthController extends Controller
@@ -75,12 +76,13 @@ class AuthController extends Controller
         $user->loginname    = $registerData['login'];
         $user->email        = $registerData['email'];
         $user->password     = bcrypt($registerData['password']);
-        $user->ip_address   = Request::setTrustedProxies(array('192.0.0.1', '10.0.0.0/8'));
+        $user->ip_address   = $_SERVER['REMOTE_ADDR'];
         
         $user->save();
 
         Auth::login($user);
 
-        return redirect()->route('home');
+        //return redirect()->route('home');
+        return view('succes');
     }
 }

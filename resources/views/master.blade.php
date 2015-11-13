@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="/css/global.css">
         <link rel="stylesheet" href="/css/contest.css">
         <link rel="shortcut icon" type="image/x-icon" href="/img/layout/favicon.ico" />
+        <meta name="csrf-token" content="{!! csrf_token() !!}">
     </head>
     <body>
        
@@ -20,7 +21,7 @@
 
                         @if(Auth::user())
                             <li>
-                                {!! HTML::link("#", Auth::user()->email) !!}
+                                {!! HTML::link("#", Auth::user()->loginname) !!}
                             </li>
                             <li> 
                                 {!! HTML::link(route('logout'), 'logout') !!}
@@ -31,6 +32,9 @@
                                 </li>
                                 <li>
                                     {!! HTML::link(route('createinquiry'), 'toevoegen') !!}
+                                </li>
+                                <li>
+                                    {!! HTML::link(route('upcoming'), 'opkomend') !!}
                                 </li>
                             @else
                                 <li>
@@ -51,7 +55,7 @@
             <div class="container">
 
                 <!-- errorlog -->
-                @if (count($errors) > 0)
+                @if ($errors->has())
                     <div class="model error">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -60,7 +64,6 @@
                         </ul>
                     </div>
                 @endif
-
 
         @yield('body')
         </div>
