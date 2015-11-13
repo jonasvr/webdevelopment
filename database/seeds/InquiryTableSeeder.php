@@ -1,8 +1,12 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Inquiry;
+use Carbon\Carbon;
 
-class questionSeeder extends Seeder
+
+
+class InquiryTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,15 +15,18 @@ class questionSeeder extends Seeder
      */
     public function run()
     {
-    	$inquiry                    = new Inquiry;
+    	 $start = Carbon::parse($inquiry->stop);
+        $stop   =  Carbon::parse($inquiry->stop)->addWeek();
+
+        $inquiry                    = new Inquiry;
 
        	$inquiry->question          = "Who was the 3rd Doctor?";
         $inquiry->awnser            = "Jon Pertwee";
         $inquiry->option1           = "Matt Smitt";
         $inquiry->option2           = "That one British Guy!";
         $inquiry->option3           = "David Tannent";
-        $inquiry->start             = "2015-11-13 00:00:00";
-        $inquiry->stop              = "2015-11-18 00:00:00"; 
+        $inquiry->start             = $start;
+        $inquiry->stop              = $stop; 
         
         $inquiry->save();
     }
