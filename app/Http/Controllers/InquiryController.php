@@ -26,8 +26,14 @@ class InquiryController extends Controller
      */
     public function index()
     {
+        $inquiry = DB::table('inquiries')
+                        ->orderBy('stop', 'desc')
+                        ->first();
+        $start = Carbon::parse($inquiry->stop);
+        $stop   =  Carbon::parse($inquiry->stop)->addWeek();
+        $data   = array('start' => $start, 'stop' => $stop);
 
-        return view('createinquiry');
+        return view('createinquiry')->with($data);
     }
 
     /**
@@ -37,14 +43,20 @@ class InquiryController extends Controller
      */
     public function create(Request $request)
     {
-        $this->validate($request, [
+        $inquiry = DB::table('inquiries')
+                        ->orderBy('stop', 'desc')
+                        ->first();
+        $start = Carbon::parse($inquiry->stop);
+        $stop   =  Carbon::parse($inquiry->stop)->addWeek();
+        
+         $this->validate($request, [
             'inquiry'           =>  'required|max:255',
             'awnser'            =>  'required|max:255',
             'option1'           =>  'required|max:255',
             'option2'           =>  'required|max:255',
             'option3'           =>  'required|max:255',
-            'start'             =>  'required|date',
-            'stop'              =>  'required|date',
+            'start'             =>  'required|date:after:'.$start,
+            'stop'              =>  'required|date:after:'.$stop,
          ]);
 
         $inputData                  = $request->all();        

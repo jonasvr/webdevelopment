@@ -27,10 +27,10 @@
                     {!! Form::text('option3', '') !!}</br>
                     
                     {!! Form::label('start', 'begin datum quiz') !!}
-                    {!! Form::date('start', '') !!}</br> 
+                    {!! Form::date('start', $min=$start) !!}</br> 
 
                     {!! Form::label('stop', 'eind datum quiz') !!}
-                    {!! Form::date('stop', '') !!}</br>
+                    {!! Form::date('stop', $min=$stop) !!}</br>
                     
 
                     {!! Form::submit() !!}
